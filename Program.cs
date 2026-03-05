@@ -1,5 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using TaskManager.Data.Context;
+using TaskManager.Interfaces.Repositories;
+using TaskManager.Interfaces.Services;
+using TaskManager.Repositories;
+using TaskManager.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,8 +15,12 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(connectionString));
+
+builder.Services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ITokenService, TokenService>();
 
 var app = builder.Build();
 
