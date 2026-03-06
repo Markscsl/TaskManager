@@ -1,4 +1,4 @@
-﻿namespace TaskManager.DTOs
+﻿namespace TaskManager.DTOs.Auth
 {
     public class LoginDTO
     {

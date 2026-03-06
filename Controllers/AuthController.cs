@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TaskManager.DTOs;
+using TaskManager.DTOs.Auth;
 using TaskManager.Interfaces.Services;
 using TaskManager.Models.Entities;
 
@@ -50,6 +52,7 @@ namespace TaskManager.Controllers
 
         }
 
+        [Authorize]
         [HttpGet("{id}")]
 
         public async Task<ActionResult<UserResponseDTO>> GetUserById(int id)
