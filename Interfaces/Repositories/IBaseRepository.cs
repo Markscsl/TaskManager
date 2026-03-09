@@ -9,5 +9,6 @@ namespace TaskManager.Interfaces.Repositories
         Task<IEnumerable<T>> GetAllAsync();
         Task DeleteAsync(int id);
         Task UpdateAsync(T entity);
+        Task UpdateRangeAsync(IEnumerable<T> entities);
     }
 }

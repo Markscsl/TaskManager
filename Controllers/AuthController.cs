@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TaskManager.DTOs;
 using TaskManager.DTOs.Auth;
 using TaskManager.Interfaces.Services;
 using TaskManager.Models.Entities;
@@ -42,7 +41,7 @@ namespace TaskManager.Controllers
                     Email = newUser.Email,
                 };
 
-                return CreatedAtAction(nameof(GetUserById), new { id = newUser.Id }, userResponse);
+                return StatusCode(201, userResponse);
             }
 
             catch (Exception ex)
@@ -50,36 +49,6 @@ namespace TaskManager.Controllers
                 return BadRequest(new { message = ex.Message });
             }
 
-        }
-
-        [Authorize]
-        [HttpGet("{id}")]
-
-        public async Task<ActionResult<UserResponseDTO>> GetUserById(int id)
-        {
-            try
-            {
-                var user = await _userService.GetUserProfileAsync(id);
-
-                if (user == null)
-                {
-                    return NotFound(new { message = "Usuário não encontrado." });
-                }
-
-                var userResponse = new UserResponseDTO
-                {
-                    Id = user.Id,
-                    Name = user.Name,
-                    Email = user.Email,
-                };
-
-                return Ok(userResponse);
-            }
-
-            catch (Exception ex)
-            {
-                return BadRequest(new { message = ex.Message });
-            }
         }
 
         [HttpPost("login")]

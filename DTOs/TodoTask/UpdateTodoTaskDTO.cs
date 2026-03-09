@@ -1,6 +1,6 @@
 ﻿using TaskManager.Models.Enums;
 
-namespace TaskManager.DTOs
+namespace TaskManager.DTOs.TodoTask
 {
     public class UpdateTodoTaskDTO
     {

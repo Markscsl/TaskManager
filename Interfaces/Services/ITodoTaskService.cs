@@ -1,4 +1,5 @@
-﻿using TaskManager.Models.Entities;
+﻿using TaskManager.DTOs.TodoTask;
+using TaskManager.Models.Entities;
 using TaskManager.Models.Enums;
 
 namespace TaskManager.Interfaces.Services
@@ -11,5 +12,6 @@ namespace TaskManager.Interfaces.Services
         Task<TodoTask> UpdateTaskStatusAsync(int userId, int todoTaskId, StatusTask novoStatus);
         Task<TodoTask> UpdateTaskAsync(int userId, int taskId, TodoTask novaTarefa);
         Task<bool> DeleteTaskAsync(int userId, int taskId);
+        Task UpdateTaskOrderAsync(int userId, Dictionary<int, int> newPositions);
     }
 }

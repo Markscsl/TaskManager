@@ -77,5 +77,21 @@ namespace TaskManager.Services
         {
             return await _userRepository.GetByIdAsync(userId);
         }
+
+        public async Task<User> UpdateUserProfileAsync(int userId, User user)
+        {
+            var usuarioBuscado = await _userRepository.GetByIdAsync(userId);
+
+            if (usuarioBuscado == null)
+            {
+                return null;
+            }
+
+            usuarioBuscado.Name = user.Name;
+            usuarioBuscado.Email = user.Email;
+
+            await _userRepository.UpdateAsync(usuarioBuscado);
+            return usuarioBuscado;
+        }
     }
 }

@@ -17,5 +17,12 @@ namespace TaskManager.Repositories
                 .Include(c => c.Category)
                 .ToListAsync();
         }
+
+        public async Task<IEnumerable<TodoTask>> GetTasksByIdsAsync(int userId, List<int> ids)
+        {
+            return await _appDbContext.Tasks
+                .Where(t => t.UserId == userId && ids.Contains(t.Id))
+                .ToListAsync();
+        }
     }
 }

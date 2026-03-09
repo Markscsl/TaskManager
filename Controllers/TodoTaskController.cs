@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using System.Threading.Tasks;
-using TaskManager.DTOs;
+using TaskManager.DTOs.TodoTask;
 using TaskManager.Interfaces.Services;
 using TaskManager.Models.Entities;
 using TaskManager.Models.Enums;
@@ -227,7 +227,27 @@ namespace TaskManager.Controllers
 
             catch (Exception ex)
             {
-                return BadRequest(new { message = ex.Message } );
+                return BadRequest(new { message = ex.Message });
+            }
+        }
+
+        [Authorize]
+        [HttpPatch("reorder")]
+
+        public async Task<ActionResult> UpdateTaskOrderAsync([FromBody] List<UpdateTodoTaskOrderDTO> newOrders)
+        {
+            try
+            {
+                var userId = int.Parse(User.FindFirstValue(ClaimTypes.NameIdentifier));
+                var positionsDict = newOrders.ToDictionary(dto => dto.Id, dto => dto.OrderIndex);
+
+                await _todoTaskService.UpdateTaskOrderAsync(userId, positionsDict);
+                return NoContent();
+            }
+
+            catch (Exception ex)
+            {
+                return BadRequest(new { message = ex.Message });
             }
         }
     }

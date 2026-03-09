@@ -50,5 +50,11 @@ namespace TaskManager.Repositories
             _dbSet.Update(obj);
             await _appDbContext.SaveChangesAsync();
         }
+
+        public async Task UpdateRangeAsync(IEnumerable<T> entities)
+        {
+            _dbSet.UpdateRange(entities);
+            await _appDbContext.SaveChangesAsync();
+        }
     }
 }

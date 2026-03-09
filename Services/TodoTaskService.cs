@@ -92,5 +92,19 @@ namespace TaskManager.Services
 
             return true;
         }
+
+        public async Task UpdateTaskOrderAsync(int userId, Dictionary<int, int> newPositions)
+        {
+            var ids = newPositions.Keys.ToList();
+
+            var tarefasDoBanco = await _taskRepository.GetTasksByIdsAsync(userId, ids);
+
+            foreach(var tarefa in tarefasDoBanco)
+            {
+                tarefa.OrderIndex = newPositions[tarefa.Id];
+            }
+
+            await _taskRepository.UpdateRangeAsync(tarefasDoBanco);
+        }
     }
 }

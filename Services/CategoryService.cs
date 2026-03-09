@@ -36,5 +36,72 @@ namespace TaskManager.Services
 
             return category;
         }
+
+        public async Task<IEnumerable<Category>> GetUserCategoriesAsync(int userId)
+        {
+            return await _categoryRepository.GetCategoriesByUserIdAsync(userId);
+        }
+
+        public async Task<Category> UpdateCategoryNameAsync(int userId, int categoryId, string name)
+        {
+            var cat = await GetCategoryByIdAsync(userId, categoryId);
+
+            if (cat == null)
+            {
+                return null;
+            }
+
+            cat.Name = name;
+            await _categoryRepository.UpdateAsync(cat);
+
+            return cat;
+        }
+
+        public async Task<Category> UpdateCategoryColorAsync(int userId, int categoryId, string color)
+        {
+            var cat = await GetCategoryByIdAsync(userId, categoryId);
+
+            if (cat == null)
+            {
+                return null;
+            }
+
+            cat.ColorHex = color;
+            await _categoryRepository.UpdateAsync(cat);
+
+            return cat;
+        }
+
+        public async Task<bool> DeleteCategoryAsync(int userId, int categoryId)
+        {
+            var cat = await GetCategoryByIdAsync(userId, categoryId);
+
+            if (cat == null)
+            {
+                return false;
+            }
+
+            await _categoryRepository.DeleteAsync(cat.Id);
+
+            return true;
+        }
+
+        public async Task<Category> UpdateCategoryAsync(int userId, int categoryId, Category category)
+        {
+            var cat = await GetCategoryByIdAsync(userId, categoryId);
+
+            if (cat == null)
+            {
+                return null;
+            }
+
+            cat.Name = category.Name;
+            cat.ColorHex = category.ColorHex; 
+            cat.UpdatedAt = DateTime.Now;
+
+            await _categoryRepository.UpdateAsync(cat);
+
+            return cat;
+        }
     }
 }
